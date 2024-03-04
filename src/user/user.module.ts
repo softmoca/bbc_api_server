@@ -9,5 +9,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
+  //다른 모듈에서 import user해도 service는 사용 할 수 없고 export를 해줘야함.
 })
 export class UserModule {}

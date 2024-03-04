@@ -6,6 +6,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from "./user/user.module";
 import { UsersModel } from "./entites/user.entity";
 import { LoggerMiddleware } from "./common/middlewares/logger.middleware";
+import { PostModel } from "./entites/post.entity";
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { LoggerMiddleware } from "./common/middlewares/logger.middleware";
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       synchronize: true,
-      entities: [UsersModel],
+      entities: [UsersModel, PostModel],
       //logging: true,
       charset: "utf8mb4",
     }),

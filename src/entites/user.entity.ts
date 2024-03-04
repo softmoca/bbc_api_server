@@ -1,5 +1,6 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { BaseModel } from "./base.entity";
+import { PostModel } from "./post.entity";
 
 @Entity()
 export class UsersModel extends BaseModel {
@@ -9,9 +10,15 @@ export class UsersModel extends BaseModel {
   @Column()
   password: string;
 
-  @Column("varchar", { name: "nickName", length: 30 })
+  @Column()
   nickName: string;
 
   @Column()
   university: string;
+
+  @Column()
+  phone: string;
+
+  @OneToMany(() => PostModel, (post) => post.author)
+  posts: PostModel[];
 }
