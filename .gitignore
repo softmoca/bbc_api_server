@@ -2,7 +2,7 @@
 /dist
 /node_modules
 /build
-/mysql-data
+mysql-data/
 
 # Logs
 logs

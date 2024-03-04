@@ -13,7 +13,7 @@ export class UserService {
   ) {}
 
   async signUp(signUpDto: SignUpDto) {
-    const { email, nickName, password, university } = signUpDto;
+    const { email, nickName, password, phone, university } = signUpDto;
 
     const isUserEmailExist = await this.userRepository.findOne({
       where: { email },
@@ -37,6 +37,7 @@ export class UserService {
       email: email,
       nickName: nickName,
       password: hasgedPassword,
+      phone: phone,
       university: university,
     });
 
