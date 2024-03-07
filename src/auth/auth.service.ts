@@ -118,13 +118,9 @@ export class AuthService {
   }
 
   rotateToken(token: string, isRefreshToken: boolean) {
-    const decoded = this.jwtService.verify(token, {
-      secret: this.configService.get<string>("SECRET_KEY"),
-      complete: true,
-    });
-    console.log(decoded.payload.type);
+    const decoded = this.verifyToken(token);
 
-    if (decoded.payload.type !== "refresh") {
+    if (decoded.type !== "refresh") {
       throw new UnauthorizedException(
         "토큰 재발급은 Refresh 토큰으로만 가능합니다!"
       );
