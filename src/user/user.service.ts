@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UsersModel } from "src/entites/user.entity";
 import { Repository } from "typeorm";
 import { SignUpDto } from "./dto/signUp.dto";
 import * as bcrypt from "bcrypt";
+import { RegisterUserDto } from "src/auth/dto/register-user.dto";
 
 @Injectable()
 export class UserService {
@@ -50,5 +55,39 @@ export class UserService {
         email,
       },
     });
+  }
+
+  async createUser(user: RegisterUserDto) {
+    const nicknameExists = await this.userRepository.exists({
+      where: {
+        nickName: user.nickName,
+      },
+    });
+
+    if (nicknameExists) {
+      throw new BadRequestException("이미 존재하는 nickname 입니다!");
+    }
+
+    const emailExists = await this.userRepository.exists({
+      where: {
+        email: user.email,
+      },
+    });
+
+    if (emailExists) {
+      throw new BadRequestException("이미 가입한 이메일입니다!");
+    }
+
+    const userObject = this.userRepository.create({
+      nickName: user.nickName,
+      email: user.email,
+      password: user.password,
+      university: user.university,
+      phone: user.phone,
+    });
+
+    const newUser = await this.userRepository.save(userObject);
+
+    return newUser;
   }
 }
