@@ -8,6 +8,7 @@ import { UsersModel } from "./entites/user.entity";
 import { LoggerMiddleware } from "./common/middlewares/logger.middleware";
 import { PostModel } from "./entites/post.entity";
 import { AuthModule } from './auth/auth.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
