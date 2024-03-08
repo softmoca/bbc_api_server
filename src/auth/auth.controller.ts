@@ -45,7 +45,7 @@ export class AuthController {
   loginEmail(@Headers("authorization") rawToken: string, @Request() req) {
     const token = this.authService.extractTokenFromHeader(rawToken, false);
     const email_password = this.authService.decodeBasicToken(token);
-    console.log(req);
+
     return this.authService.loginWithEmail(email_password);
   }
 
