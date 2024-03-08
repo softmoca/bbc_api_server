@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany } from "typeorm";
 import { BaseModel } from "./base.entity";
 import { PostModel } from "./post.entity";
+import { Exclude } from "class-transformer";
 
 @Entity()
 export class UsersModel extends BaseModel {
@@ -8,6 +9,9 @@ export class UsersModel extends BaseModel {
   email: string;
 
   @Column()
+  @Exclude({
+    toPlainOnly: true,
+  })
   password: string;
 
   @Column()

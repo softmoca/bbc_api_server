@@ -32,6 +32,7 @@ export class PostsController {
     @Param("id", ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto
   ) {
+    console.log("dd");
     return this.postsService.updatePost(id, updatePostDto);
   }
 }
