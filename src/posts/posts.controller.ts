@@ -22,7 +22,6 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  // @UseInterceptors(LogInterceptor)
   getPosts(@Query() query: PaginatePostDto) {
     return this.postsService.paginatePosts(query);
   }
