@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from "@nestjs/common";
 import { PostsService } from "./posts.service";
@@ -13,10 +15,17 @@ import { AccessTokenGuard } from "src/auth/guard/bearer-token.guard";
 import { CurrentUser } from "src/common/decorators/user.decorator";
 import { UsersModel } from "src/entites/user.entity";
 import { UpdatePostDto } from "./dto/updatePost.dto";
+import { PaginatePostDto } from "./dto/paginte-post.dto";
 
 @Controller("posts")
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
+
+  @Get()
+  // @UseInterceptors(LogInterceptor)
+  getPosts(@Query() query: PaginatePostDto) {
+    return this.postsService.paginatePosts(query);
+  }
 
   @Post()
   @UseGuards(AccessTokenGuard)

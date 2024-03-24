@@ -19,7 +19,7 @@ export class PostModel extends BaseModel {
 
   @ManyToOne(() => UsersModel, (user) => user.posts, {
     nullable: false,
-    eager: true,
+    // eager: true,
   })
   author: UsersModel;
 }
