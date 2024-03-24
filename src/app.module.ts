@@ -15,6 +15,7 @@ import { PostModel } from "./entites/post.entity";
 import { AuthModule } from "./auth/auth.module";
 import { PostsModule } from "./posts/posts.module";
 import { APP_INTERCEPTOR } from "@nestjs/core";
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
     UserModule,
     AuthModule,
     PostsModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [

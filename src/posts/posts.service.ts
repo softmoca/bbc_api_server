@@ -6,21 +6,24 @@ import { CreatePostDto } from "./dto/createPost.dto";
 import { UpdatePostDto } from "./dto/updatePost.dto";
 import { PaginatePostDto } from "./dto/paginte-post.dto";
 import { ConfigService } from "@nestjs/config";
+import { CommonService } from "src/common/common.service";
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(PostModel)
     private readonly postsRepository: Repository<PostModel>,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly commonService: CommonService
   ) {}
 
   async paginatePosts(dto: PaginatePostDto) {
-    if (dto.page) {
-      return this.pagePaginatePosts(dto);
-    } else {
-      return this.cursorPaginatePosts(dto);
-    }
+    return this.commonService.paginate(dto, this.postsRepository, {}, "posts");
+    // if (dto.page) {
+    //   return this.pagePaginatePosts(dto);
+    // } else {
+    //   return this.cursorPaginatePosts(dto);
+    // }
   }
 
   async pagePaginatePosts(dto: PaginatePostDto) {
