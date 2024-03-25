@@ -1,7 +1,13 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PostModel } from "src/entites/post.entity";
-import { FindOptionsWhere, LessThan, MoreThan, Repository } from "typeorm";
+import {
+  FindOptionsWhere,
+  LessThan,
+  MoreThan,
+  QueryRunner,
+  Repository,
+} from "typeorm";
 import { CreatePostDto } from "./dto/createPost.dto";
 import { UpdatePostDto } from "./dto/updatePost.dto";
 import { PaginatePostDto } from "./dto/paginte-post.dto";
@@ -17,6 +23,26 @@ export class PostsService {
     private readonly commonService: CommonService
   ) {}
 
+  async getPostById(id: number, qr?: QueryRunner) {
+    const repository = this.getRepository(qr);
+
+    const post = await repository.findOne({
+      relations: {
+        author: true,
+        images: true,
+      },
+      where: {
+        id,
+      },
+    });
+
+    if (!post) {
+      throw new NotFoundException();
+    }
+
+    return post;
+  }
+
   async paginatePosts(dto: PaginatePostDto) {
     return this.commonService.paginate(
       dto,
@@ -26,15 +52,29 @@ export class PostsService {
     );
   }
 
-  async createPost(authorId: number, createPostDto: CreatePostDto) {
-    const post = this.postsRepository.create({
+  getRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<PostModel>(PostModel)
+      : this.postsRepository;
+  }
+
+  async createPost(
+    authorId: number,
+    createPostDto: CreatePostDto,
+    qr?: QueryRunner
+  ) {
+    const repository = this.getRepository(qr);
+
+    const post = repository.create({
       author: {
         id: authorId,
       },
       ...createPostDto,
+      images: [],
+      postLike: 0,
     });
 
-    const newPost = await this.postsRepository.save(post);
+    const newPost = await repository.save(post);
 
     return newPost;
   }

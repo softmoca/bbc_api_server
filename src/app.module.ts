@@ -15,10 +15,17 @@ import { PostModel } from "./entites/post.entity";
 import { AuthModule } from "./auth/auth.module";
 import { PostsModule } from "./posts/posts.module";
 import { APP_INTERCEPTOR } from "@nestjs/core";
-import { CommonModule } from './common/common.module';
+import { CommonModule } from "./common/common.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { PUBLIC_FOLDER_PATH } from "./common/const/path.const";
+import { ImageModel } from "./entites/image.entity";
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: PUBLIC_FOLDER_PATH,
+      serveRoot: "/public",
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
@@ -32,7 +39,7 @@ import { CommonModule } from './common/common.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       synchronize: true,
-      entities: [UsersModel, PostModel],
+      entities: [UsersModel, PostModel, ImageModel],
       //logging: true,
       charset: "utf8mb4",
     }),

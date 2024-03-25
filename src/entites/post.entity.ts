@@ -3,6 +3,7 @@ import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 import { BaseModel } from "./base.entity";
 import { UsersModel } from "./user.entity";
 import { IsString } from "class-validator";
+import { ImageModel } from "./image.entity";
 
 @Entity()
 export class PostModel extends BaseModel {
@@ -22,4 +23,7 @@ export class PostModel extends BaseModel {
     // eager: true,
   })
   author: UsersModel;
+
+  @OneToMany((type) => ImageModel, (image) => image.post)
+  images: ImageModel[];
 }
