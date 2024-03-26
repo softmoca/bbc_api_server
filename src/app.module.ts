@@ -19,6 +19,9 @@ import { CommonModule } from "./common/common.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { PUBLIC_FOLDER_PATH } from "./common/const/path.const";
 import { ImageModel } from "./entites/image.entity";
+import { ChatsModule } from "./chats/chats.module";
+import { ChatsModel } from "./entites/chats.entity";
+import { MessagesModel } from "./entites/messages.entity";
 
 @Module({
   imports: [
@@ -39,7 +42,7 @@ import { ImageModel } from "./entites/image.entity";
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       synchronize: true,
-      entities: [UsersModel, PostModel, ImageModel],
+      entities: [UsersModel, PostModel, ImageModel, ChatsModel, MessagesModel],
       //logging: true,
       charset: "utf8mb4",
     }),
@@ -47,6 +50,7 @@ import { ImageModel } from "./entites/image.entity";
     AuthModule,
     PostsModule,
     CommonModule,
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [

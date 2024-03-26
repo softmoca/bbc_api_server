@@ -1,7 +1,9 @@
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { BaseModel } from "./base.entity";
 import { PostModel } from "./post.entity";
 import { Exclude } from "class-transformer";
+import { ChatsModel } from "./chats.entity";
+import { MessagesModel } from "./messages.entity";
 
 @Entity()
 export class UsersModel extends BaseModel {
@@ -25,4 +27,11 @@ export class UsersModel extends BaseModel {
 
   @OneToMany(() => PostModel, (post) => post.author)
   posts: PostModel[];
+
+  @ManyToMany(() => ChatsModel, (chat) => chat.users)
+  @JoinTable()
+  chats: ChatsModel[];
+
+  @OneToMany(() => MessagesModel, (message) => message.author)
+  messages: MessagesModel;
 }
