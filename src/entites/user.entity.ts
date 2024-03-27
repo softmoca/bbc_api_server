@@ -5,6 +5,7 @@ import { Exclude } from "class-transformer";
 import { ChatsModel } from "./chats.entity";
 import { MessagesModel } from "./messages.entity";
 import { IsEmail, IsNumber, IsString } from "class-validator";
+import { CommentsModel } from "./comments.entity";
 
 @Entity()
 export class UsersModel extends BaseModel {
@@ -40,4 +41,6 @@ export class UsersModel extends BaseModel {
 
   @OneToMany(() => MessagesModel, (message) => message.author)
   messages: MessagesModel;
+  @OneToMany(() => CommentsModel, (comment) => comment.author)
+  postComments: CommentsModel[];
 }

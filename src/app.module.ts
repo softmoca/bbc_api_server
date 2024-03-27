@@ -22,6 +22,8 @@ import { ImageModel } from "./entites/image.entity";
 import { ChatsModule } from "./chats/chats.module";
 import { ChatsModel } from "./entites/chats.entity";
 import { MessagesModel } from "./entites/messages.entity";
+import { CommentsModule } from "./posts/comments/comments.module";
+import { CommentsModel } from "./entites/comments.entity";
 
 @Module({
   imports: [
@@ -42,7 +44,14 @@ import { MessagesModel } from "./entites/messages.entity";
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       synchronize: true,
-      entities: [UsersModel, PostModel, ImageModel, ChatsModel, MessagesModel],
+      entities: [
+        UsersModel,
+        PostModel,
+        ImageModel,
+        ChatsModel,
+        MessagesModel,
+        CommentsModel,
+      ],
       //logging: true,
       charset: "utf8mb4",
     }),
@@ -51,6 +60,7 @@ import { MessagesModel } from "./entites/messages.entity";
     PostsModule,
     CommonModule,
     ChatsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [

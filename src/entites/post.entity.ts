@@ -4,6 +4,7 @@ import { BaseModel } from "./base.entity";
 import { UsersModel } from "./user.entity";
 import { IsString } from "class-validator";
 import { ImageModel } from "./image.entity";
+import { CommentsModel } from "./comments.entity";
 
 @Entity()
 export class PostModel extends BaseModel {
@@ -18,6 +19,9 @@ export class PostModel extends BaseModel {
   @Column("int", { default: 0 })
   postLike: number;
 
+  @Column()
+  commentCount: number;
+
   @ManyToOne(() => UsersModel, (user) => user.posts, {
     nullable: false,
     // eager: true,
@@ -26,4 +30,7 @@ export class PostModel extends BaseModel {
 
   @OneToMany((type) => ImageModel, (image) => image.post)
   images: ImageModel[];
+
+  @OneToMany(() => CommentsModel, (comment) => comment.post)
+  comments: CommentsModel[];
 }

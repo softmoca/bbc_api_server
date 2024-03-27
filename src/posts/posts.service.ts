@@ -104,4 +104,50 @@ export class PostsService {
 
     return newPost;
   }
+
+  async checkPostExistsById(id: number) {
+    return this.postsRepository.exists({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async isPostMine(userId: number, postId: number) {
+    return this.postsRepository.exists({
+      where: {
+        id: postId,
+        author: {
+          id: userId,
+        },
+      },
+      relations: {
+        author: true,
+      },
+    });
+  }
+
+  async incrementCommentCount(postId: number, qr?: QueryRunner) {
+    const repository = this.getRepository(qr);
+
+    await repository.increment(
+      {
+        id: postId,
+      },
+      "commentCount",
+      1
+    );
+  }
+
+  async decrementCommentCount(postId: number, qr?: QueryRunner) {
+    const repository = this.getRepository(qr);
+
+    await repository.decrement(
+      {
+        id: postId,
+      },
+      "commentCount",
+      1
+    );
+  }
 }

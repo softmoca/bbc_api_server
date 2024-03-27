@@ -25,6 +25,7 @@ import { ImageModelType } from "src/entites/image.entity";
 import { PostsImagesService } from "./image/images.service";
 import { error } from "console";
 import { LogInterceptor } from "src/common/interceptor/log.interceptor";
+import { IsPostMineOrAdminGuard } from "src/auth/guard/is-post-mine-or-admin.guard";
 
 @Controller("posts")
 export class PostsController {
@@ -74,12 +75,12 @@ export class PostsController {
   //   return this.postsService.createPost(user.id, createPostDto);
   // }
 
-  @Patch(":id")
-  updatePost(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() updatePostDto: UpdatePostDto
+  @Patch(":postId")
+  @UseGuards(IsPostMineOrAdminGuard)
+  patchPost(
+    @Param("postId", ParseIntPipe) id: number,
+    @Body() body: UpdatePostDto
   ) {
-    console.log("dd");
-    return this.postsService.updatePost(id, updatePostDto);
+    return this.postsService.updatePost(id, body);
   }
 }
