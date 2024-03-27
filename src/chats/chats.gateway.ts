@@ -51,7 +51,9 @@ export class ChatsGateway
     const rawToken = headers["authorization"];
 
     if (!rawToken) {
-      console.log("서버 : 토큰이 없는 에러로 인해 연결을 끊습니다.");
+      console.log(
+        `서버 : 토큰이 없는 에러로 인해 연결을 끊습니다. ${socket.id}`
+      );
       socket.emit("exception", {
         data: "토큰이 없는 에러로 인해 연결을 끊습니다.",
       });
@@ -68,7 +70,9 @@ export class ChatsGateway
 
       return true;
     } catch (e) {
-      console.log("서버 : 소켓 통신시 에러 발생으로 인해 연결을 끊습니다");
+      console.log(
+        `서버 : 소켓 통신시 에러 발생으로 인해 연결을 끊습니다 ${socket.id} `
+      );
       socket.emit("exception", {
         data: "소켓 통신시 에러 발생으로 인해 연결을 끊습니다.",
       });
@@ -97,7 +101,6 @@ export class ChatsGateway
     const chat = await this.chatsService.createChat(data);
   }
 
-  @SubscribeMessage("enter_chat")
   @UsePipes(
     new ValidationPipe({
       transform: true,
@@ -109,6 +112,7 @@ export class ChatsGateway
     })
   )
   @UseFilters(SocketCatchHttpExceptionFilter)
+  @SubscribeMessage("enter_chat")
   async enterChat(
     // 방의 chat ID들을 리스트로 받는다.
     @ConnectedSocket() socket: Socket & { user: UsersModel },
@@ -128,7 +132,6 @@ export class ChatsGateway
     socket.join(data.chatIds.map((x) => x.toString()));
   }
 
-  @SubscribeMessage("send_message")
   @UsePipes(
     new ValidationPipe({
       transform: true,
@@ -140,6 +143,7 @@ export class ChatsGateway
     })
   )
   @UseFilters(SocketCatchHttpExceptionFilter)
+  @SubscribeMessage("send_message")
   async sendMessage(
     @MessageBody() dto: CreateMessagesDto,
     @ConnectedSocket() socket: Socket & { user: UsersModel }

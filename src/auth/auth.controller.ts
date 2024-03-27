@@ -51,6 +51,7 @@ export class AuthController {
 
   @Post("register/email")
   registerEmail(@Body() body: RegisterUserDto) {
+    console.log("d");
     return this.authService.registerWithEmail(body);
   }
 }

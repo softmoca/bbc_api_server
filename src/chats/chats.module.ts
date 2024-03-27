@@ -9,6 +9,7 @@ import { UserModule } from "src/user/user.module";
 import { ChatsModel } from "src/entites/chats.entity";
 import { MessagesModel } from "src/entites/messages.entity";
 import { ChatsMessagesService } from "./messages/messages.service";
+import { MessagesController } from "./messages/messages.controller";
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { ChatsMessagesService } from "./messages/messages.service";
     AuthModule,
     UserModule,
   ],
-  controllers: [ChatsController],
+  controllers: [ChatsController, MessagesController],
   providers: [ChatsGateway, ChatsService, ChatsMessagesService],
 })
 export class ChatsModule {}

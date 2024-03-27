@@ -11,6 +11,7 @@ export class MessagesController {
     @Param("cid", ParseIntPipe) id: number,
     @Query() dto: BasePaginationDto
   ) {
+    console.log("dd");
     return this.messagesService.paginteMessages(dto, {
       where: {
         chat: {
