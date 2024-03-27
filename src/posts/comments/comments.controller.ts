@@ -75,7 +75,7 @@ export class CommentsController {
   }
 
   @Delete(":commentId")
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(IsCommentMineOrAdminGuard)
   @UseInterceptors(TransactionInterceptor)
   async deleteComment(
     @Param("commentId", ParseIntPipe) commentId: number,

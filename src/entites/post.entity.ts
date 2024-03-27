@@ -19,7 +19,7 @@ export class PostModel extends BaseModel {
   @Column("int", { default: 0 })
   postLike: number;
 
-  @Column()
+  @Column("int", { default: 0 })
   commentCount: number;
 
   @ManyToOne(() => UsersModel, (user) => user.posts, {
